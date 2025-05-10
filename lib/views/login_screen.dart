@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/services/auth/auth_service.dart';
 import 'package:fooddelivery/views/homepage.dart';
 import 'package:fooddelivery/widgets/my_button.dart';
 import 'package:fooddelivery/widgets/my_textfield.dart';
@@ -15,8 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
-
   /*
 
     Login Method
@@ -24,10 +23,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   */
 
-  void login(){
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-      return Homepage();
-    }));
+  void login() async {
+    final _authService = AuthService();
+
+    //sign in
+    try {
+      await _authService.signInWithEmailPassword(
+        emailController.text,
+        passwordController.text,
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(title: Text(e.toString())),
+      );
+    }
   }
 
   @override

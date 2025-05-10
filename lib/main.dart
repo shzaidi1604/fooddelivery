@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/auth/login_or_register.dart';
+import 'package:fooddelivery/services/auth/auth_gate.dart';
+import 'package:fooddelivery/firebase_options.dart';
 import 'package:fooddelivery/model/resturant.dart';
 import 'package:fooddelivery/themes/theme_provider.dart';
-import 'package:fooddelivery/views/login_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context)=>ThemeProvider()),
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginOrRegister(),
+      home: AuthGate(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }

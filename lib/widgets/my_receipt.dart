@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/model/resturant.dart';
+import 'package:fooddelivery/views/homepage.dart';
 import 'package:provider/provider.dart';
 
 class MyReceipt extends StatelessWidget {
@@ -30,6 +31,21 @@ class MyReceipt extends StatelessWidget {
             ),
             SizedBox(height: 25),
             Text("Estimated Delivery Time is 4:20 PM"),
+            SizedBox(height: 25),
+            InkWell(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Homepage();
+                    },
+                  ),
+                  (route) => false,
+                );
+              },
+              child: Text("Main Menu"),
+            ),
           ],
         ),
       ),

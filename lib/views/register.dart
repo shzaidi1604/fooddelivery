@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/services/auth/auth_service.dart';
 import 'package:fooddelivery/widgets/my_button.dart';
 import 'package:fooddelivery/widgets/my_textfield.dart';
 
@@ -14,6 +15,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  void register() async {
+    final _authService = AuthService();
+    //if password match create user
+    if (passwordController.text == confirmPasswordController.text) {
+      try {
+        await _authService.signUpWithEmailPassword(
+          emailController.text,
+          passwordController.text,
+        );
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(title: Text(e.toString())),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder:
+            (context) => 
+            AlertDialog(title: Text("Passwords don't match.."))
+            
+      );
+    }
+    //if dont match return error
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             SizedBox(height: 15),
 
-             //confirm password textfield
+            //confirm password textfield
             MyTextfield(
               controller: confirmPasswordController,
               hintText: "Confirm Password",
@@ -71,7 +99,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 15),
 
             //signin button
-            MyButton(onTap: () {}, text: "Sign Up"),
+            MyButton(
+              onTap: register,
+              text: "Sign Up",
+            ),
 
             SizedBox(height: 15),
 
